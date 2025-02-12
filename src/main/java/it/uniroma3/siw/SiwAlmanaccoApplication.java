@@ -9,7 +9,6 @@ public class SiwAlmanaccoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SiwAlmanaccoApplication.class, args);
 		
-		
 	}
 
 }
