@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <title>Inserisci Stagione</title>
+	<link rel="stylesheet" href="/css/nuovoElemento.css" />
+</head>
+<body>
+
+<h1 class="titolo">Inserisci una Nuova Stagione</h1>
+<div>
+<form th:action="@{/admin/stagione/inserisci/salvata}" th:object="${stagione}" method="post">
+	<div th:if="${#fields.hasGlobalErrors()}">
+			      <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+			    </div>
+			<div>
+    <label for="annoInizio">Anno Inizio:</label>
+    <input type="text" id="annoInizio" th:field="*{annoInizio}" required>
+	<span th:if="${#fields.hasErrors('annoInizio')}" th:errors="*{annoInizio}"></span>
+			</div>
+    <br>
+	<div>
+    <label for="annoFine">Anno Fine:</label>
+    <input type="text" id="annoFine" th:field="*{annoFine}" required>
+	<span th:if="${#fields.hasErrors('annoFine')}" th:errors="*{annoFine}"></span>
+				</div>
+    <br>
+    <button type="submit">Inserisci Stagione</button>
+</form>
+</div>
+<a class="indietro" href="/admin/gestioneStagioni">indietro</a>
+
+</body>
+</html>

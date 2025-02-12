@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Lista Posizionamenti</title>
+	<link rel="stylesheet" href="/css/elencoPosizioniPerSquadra.css" />
+</head>
+
+<body>
+
+    <h1 class="titolo">Lista dei Posizionamenti per : <span th:text="${squadra.nome}"> </span></h1>
+
+    <!-- Mostra la lista delle squadre -->
+    <table border="1">
+        <thead>
+            <tr>
+				<th>Stagione</th>
+                <th>Posizione</th>
+                <th>Punti</th>
+				<th>Vittorie</th>
+				<th>Pareggi</th>
+				<th>Sconfitte</th>
+				<th>GolFatti</th>
+				<th>GolSubiti</th>
+								
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="posizione : ${posizionamenti}">
+				<td th:text="${posizione.stagione.annoInizio} +'/'+${posizione.stagione.annoFine} "></td>
+                <td th:text="${posizione.posizione}"></td>
+                <td th:text="${posizione.punti}"></td>
+				<td th:text="${posizione.vittorie}"></td>
+				<td th:text="${posizione.pareggi}"></td>
+				<td th:text="${posizione.sconfitte}"></td>
+				<td th:text="${posizione.golFatti}"></td>
+				<td th:text="${posizione.golSubiti}"></td>
+				<td> <a th:href="@{'/admin/posizioni/'+${squadra.id}+'/'+${posizione.id}+'/modifica'}">modifica</a></td>
+            </tr>
+        </tbody>
+		
+    </table>
+
+    <a class="indietro" href="/admin/squadre"> indietro </a>
+
+</body>
+
+</html>

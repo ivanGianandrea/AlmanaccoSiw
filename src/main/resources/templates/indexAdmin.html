@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+    <title>Almanacco</title>
+	<link rel="stylesheet" href="/css/homePage.css" />
+</head>
+<body>
+	<a th:if="${userDetails == null}" id="login" href="/login">Login</a>
+	    <a th:if="${userDetails != null}" id="logout" href="/logout">Logout</a>
+<h1 class="titolo">ALMANACCO</h1>
+<ul>
+    <li><a href="/stagioniUtente"> Elenco Stagioni </a></li>
+ </ul>
+ <h2 class = titolo> ALMANACCO - AMMINISTRATORE</h2>
+ <ul>
+<li><a href="/admin/gestioneSquadra"> Gestione Squadre </a></li>
+<li><a href="/admin/gestioneStagioni"> Gestione Stagioni </a></li>
+</ul>
+</body>
+</html>

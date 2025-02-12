@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>Inserisci Squadra</title>
+	<link rel="stylesheet" href="/css/nuovoElemento.css" />
+</head>
+<body>
+
+<h1 class="titolo">Inserisci una Nuova Squadra</h1>
+<div>
+<form th:action="@{/admin/squadra/inserisci/salvata}" th:object="${squadra}" method="post">
+	<div th:if="${#fields.hasGlobalErrors()}">
+				      <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+				    </div>
+		<div>
+    <label for="nome">Nome della Squadra:</label>
+    <input type="text" id="nome" th:field="*{nome}">
+	<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+				</div>
+    <br>
+	<div>
+    <label for="citta">Città:</label>
+    <input type="text" id="citta" th:field="*{citta}">
+	<span th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"></span>
+					</div>
+    <br>
+    <button type="submit">Inserisci Squadra</button>
+</form>
+</div>
+<a class="indietro" th:href="@{'/admin/gestioneSquadra'}"> indietro </a>
+</body>
+</html>

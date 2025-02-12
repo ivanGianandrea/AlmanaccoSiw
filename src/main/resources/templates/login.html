@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+	<link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+	 <h1 class ="titolo">Login</h1>
+	 <div class="login-container">
+	 <form th:action="@{/login}" method="post">
+		<div>
+	        <span> Username:</span> <span><input type="text" name="username" required /></span>
+		</div>
+		<div>
+			        <span> Password:</span> <span><input type="password" name="password" required /></span>
+				</div>
+	         <span><button type="submit">Login</button></span>
+	     </form>
+		 </div>
+
+	  <div><a class="registrati" href="/register">Registrati</a></div>
+	  <div><a class="indietro" href="/">indietro</a></div>
+	</body>
+	</html>

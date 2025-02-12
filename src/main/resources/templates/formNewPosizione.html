@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <title>Crea Posizione in Classifica</title>
+	<link rel="stylesheet" href="/css/nuovoElemento.css" />
+</head>
+<body>
+
+<h1 class="titolo">Crea una Nuova Posizione in Classifica</h1>
+<div>
+<form action="#" th:action="@{/admin/posizione/inserisci/salvata}" th:object="${posizione}" method="post">
+	<div th:if="${#fields.hasGlobalErrors()}">
+			      <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+			    </div>
+	<div>		
+    Posizione:<input type="number" th:field="*{posizione}"/><br/>
+	<span th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}"></span>
+				</div>
+	
+	<div>
+    Punti:<input type="number" th:field="*{punti}" /><br/>
+	<span th:if="${#fields.hasErrors('punti')}" th:errors="*{punti}"></span>
+					</div>
+	
+	<div>
+    Vittorie:<input type="number" th:field="*{vittorie}"/><br/>
+	<span th:if="${#fields.hasErrors('vittorie')}" th:errors="*{vittorie}"></span>
+					</div>
+
+	<div>
+    Pareggi:<input type="number" th:field="*{pareggi}" /><br/>
+	<span th:if="${#fields.hasErrors('pareggi')}" th:errors="*{pareggi}"></span>
+						</div>
+
+
+	<div>
+    Sconfitte:<input type="number" th:field="*{sconfitte}" /><br/>
+	<span th:if="${#fields.hasErrors('sconfitte')}" th:errors="*{sconfitte}"></span>
+						</div>
+
+
+	<div>
+    Gol Fatti: <input type="number" th:field="*{golFatti}"/><br/>
+	<span th:if="${#fields.hasErrors('golFatti')}" th:errors="*{golFatti}"></span>
+						</div>
+
+
+	<div>
+    <label for="golSubiti">Gol Subiti:</label>
+    <input type="number" name="golSubiti" th:field="*{golSubiti}"/><br/>
+	<span th:if="${#fields.hasErrors('golSubiti')}" th:errors="*{golSubiti}"></span>
+						</div>
+
+
+	<div>
+    Seleziona Squadra: <select name="squadraId">
+        <option th:each="squadra : ${squadre}" th:value="${squadra.id}" th:text="${squadra.nome}"></option>
+    </select>
+	<span th:if="${#fields.hasErrors('squadra')}" th:errors="*{squadra}"></span>
+						</div>
+
+	<div>
+	Seleziona Stagione: <select name="stagioneId" required>
+	        <option th:each="stagione : ${stagioni}" th:value="${stagione.id}" th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></option>
+	    </select>
+		<span th:if="${#fields.hasErrors('stagione')}" th:errors="*{stagione}"></span>
+								</div>
+	<br/>
+
+    <button type="submit">Crea Posizione</button>
+</form>
+</div>
+<a class="indietro" th:href="@{'/admin/gestioneSquadra'}" > indietro </a>
+
+</body>
+</html>

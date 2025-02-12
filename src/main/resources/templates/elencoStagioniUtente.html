@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Lista Stagioni</title>
+	<link rel="stylesheet" href="/css/elencoStagioni.css" />
+</head>
+
+<body>
+
+    <h1 class="titolo">Lista Stagioni</h1>
+
+   
+	<ul>
+	    <li th:each="stagione : ${stagioni}"> <a th:href="@{'/stagioniUtente/'+ ${stagione.id}}"><spa th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></span></a></li>
+	</ul>
+
+  
+    <a class="indietro" href="/">Indietro</a>
+
+</body>
+
+</html>

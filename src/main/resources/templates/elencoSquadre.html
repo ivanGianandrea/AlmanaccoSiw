@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Lista Squadre</title>
+	<link rel="stylesheet" href="/css/elencoSquadre.css" />
+</head>
+
+<body>
+
+    <h1 class="titolo">Lista delle Squadre</h1>
+
+    <!-- Mostra la lista delle squadre -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Città</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itera sulle squadre e mostra i loro dettagli -->
+            <tr th:each="squadra : ${squadre}">
+                <td th:text="${squadra.nome}"></td>
+                <td th:text="${squadra.citta}"></td>
+				<td> <a th:href="@{'/admin/posizioni/'+${squadra.id}}">posizionamenti</a></td>
+            </tr>
+        </tbody>
+		
+    </table>
+	
+	<a class="indietro" th:href="@{'/admin/gestioneSquadra'}" > indietro </a>
+
+</body>
+
+</html>

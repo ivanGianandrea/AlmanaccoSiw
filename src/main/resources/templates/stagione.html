@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <title>Stagione</title>
+	<link rel="stylesheet" href="/css/stagione.css" />
+</head>
+<body>
+
+<h1 class="titolo"><strong>Classifica Stagione : </strong><span th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></span></h1>
+
+<table border = 1>
+	<thead>
+	<tr>
+		<th>Squadra</th>
+		<th>Posizione</th>
+		<th>Punti</th>
+		<th>Vittorie</th>
+		<th>Pareggi</th>
+		<th>Sconfitte</th>
+		<th>GolFatti</th>
+      	<th>GolSubiti</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr th:each="posizione : ${classifica}">
+		<td th:text="${posizione.squadra.nome}"> </td>
+		<td th:text="${posizione.posizione}"> </td>
+		<td th:text="${posizione.punti}"> </td>
+		<td th:text="${posizione.vittorie}"> </td>
+		<td th:text="${posizione.pareggi}"> </td>
+		<td th:text="${posizione.sconfitte}"> </td>
+		<td th:text="${posizione.golFatti}"> </td>
+		<td th:text="${posizione.golSubiti}"> </td>
+		</tr>
+	</tbody>
+</table>
+<ul>
+	<li>Squadra Campione : <span th:text="${campione.nome}"></span> </li>
+	<li>Squadra con il miglior attacco : <span th:text="${piuGol.squadra.nome}"></span> con <span th:text="${piuGol.golFatti}"></span> gol</li>
+	<li>Squadra con la miglior difesa : <span th:text="${menoGol.squadra.nome}"></span> con <span th:text="${menoGol.golSubiti}"></span> gol</li>
+	<li>Squadre retrocesse:
+	    <ul>
+	        <span><li th:each="pos : ${retrocesse}" th:text="${pos.squadra.nome}"></li></span>
+	    </ul>
+	</li>
+</ul>
+
+
+    <a class="indietro" th:href = "@{/stagioniUtente}"> indietro </a>
+
+</body>
+</html>

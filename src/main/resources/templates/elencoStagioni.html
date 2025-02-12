@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Lista Stagioni</title>
+	<link rel="stylesheet" href="/css/elencoSquadre.css" />
+</head>
+
+<body>
+
+    <h1 class="titolo">Lista delle Stagioni</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Anno</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itera sulle squadre e mostra i loro dettagli -->
+            <tr th:each="stagione : ${stagioni}">
+                <td th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+   <a class="indietro" href="/admin/gestioneStagioni">indietro</a>
+
+</body>
+
+</html>
