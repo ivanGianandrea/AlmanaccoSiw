@@ -25,4 +25,13 @@ SquadraRepository squadraRepository;
 	public boolean esistenzaSquadra(String nome) {
 		return squadraRepository.existsByNome(nome);
 	}
+	public int getCampionatiVinti(long idSquadra) {
+		return squadraRepository.findCampionatiVinti(idSquadra);
+	}
+	public Squadra getSquadraByNome(String nome) {
+		return squadraRepository.findSquadraByNome(nome);
+	}
+	public void eliminaSquadra(long idSquadra) {
+		squadraRepository.deleteById(idSquadra);
+	}
 }

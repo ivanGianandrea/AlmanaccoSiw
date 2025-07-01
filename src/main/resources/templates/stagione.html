@@ -1,51 +1,97 @@
 <!DOCTYPE html>
 <head>
     <title>Stagione</title>
-	<link rel="stylesheet" href="/css/stagione.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg fixed-top">
+					    <div class="container-fluid">
+					        <a class="navbar-brand" href="/">Almanacco Serie A</a>
+					        <div class="collapse navbar-collapse justify-content-end">
+					            <ul class="navbar-nav">
 
-<h1 class="titolo"><strong>Classifica Stagione : </strong><span th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></span></h1>
+									
+									<li class="nav-item dropdown-css" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+									    <a class="nav-link" href="#" tabindex="0">Area Admin ▾</a>
+									    <ul class="dropdown-menu-css">
+									        <li><a href="/admin/gestioneSquadra">Gestione Squadre</a></li>
+									        <li><a href="/admin/gestioneStagioni">Gestione Stagioni</a></li>
+									    </ul>
+									</li>
+					                <li class="nav-item" th:if="${userDetails == null}">
+					                    <a class="nav-link" href="/login">Login</a>
+					                </li>
+					                <li class="nav-item" th:if="${userDetails != null}">
+										<div class="d-flex align-items-center">
+										        <span class="text-light me-2" th:text="${userDetails.username}">Utente</span>
+										        <a class="nav-link" href="/logout">Logout</a>
+										    </div>
+					                </li>
 
-<table border = 1>
-	<thead>
-	<tr>
-		<th>Squadra</th>
-		<th>Posizione</th>
-		<th>Punti</th>
-		<th>Vittorie</th>
-		<th>Pareggi</th>
-		<th>Sconfitte</th>
-		<th>GolFatti</th>
-      	<th>GolSubiti</th>
-	</tr>
-	</thead>
-	<tbody>
-		<tr th:each="posizione : ${classifica}">
-		<td th:text="${posizione.squadra.nome}"> </td>
-		<td th:text="${posizione.posizione}"> </td>
-		<td th:text="${posizione.punti}"> </td>
-		<td th:text="${posizione.vittorie}"> </td>
-		<td th:text="${posizione.pareggi}"> </td>
-		<td th:text="${posizione.sconfitte}"> </td>
-		<td th:text="${posizione.golFatti}"> </td>
-		<td th:text="${posizione.golSubiti}"> </td>
-		</tr>
-	</tbody>
-</table>
-<ul>
-	<li>Squadra Campione : <span th:text="${campione.nome}"></span> </li>
-	<li>Squadra con il miglior attacco : <span th:text="${piuGol.squadra.nome}"></span> con <span th:text="${piuGol.golFatti}"></span> gol</li>
-	<li>Squadra con la miglior difesa : <span th:text="${menoGol.squadra.nome}"></span> con <span th:text="${menoGol.golSubiti}"></span> gol</li>
-	<li>Squadre retrocesse:
-	    <ul>
-	        <span><li th:each="pos : ${retrocesse}" th:text="${pos.squadra.nome}"></li></span>
-	    </ul>
-	</li>
-</ul>
+					            </ul>
+					        </div>
+					    </div>
+					</nav>
+					<div class="container mt-5 pt-5">
+					    <h1 class="mb-4" style="color: #001f3f; font-weight: bold;"><strong>Classifica Stagione:</strong> <span th:text="${stagione.annoInizio + '/' + stagione.annoFine}"></span></h1>
 
+					    <div th:if="${classifica.isEmpty()}">
+					        <p>Non esiste classifica per questa stagione.</p>
+					    </div>
 
-    <a class="indietro" th:href = "@{/stagioniUtente}"> indietro </a>
+					    <div th:unless="${classifica.isEmpty()}">
+					       <table class="table table-bordered text-center table-dark-blue">
+					            <thead class="table-dark">
+					                <tr>
+					                    <th>Squadra</th>
+					                    <th>Posizione</th>
+					                    <th>Punti</th>
+					                    <th>Vittorie</th>
+					                    <th>Pareggi</th>
+					                    <th>Sconfitte</th>
+					                    <th>Gol Fatti</th>
+					                    <th>Gol Subiti</th>
+					                </tr>
+					            </thead>
+					            <tbody>
+					                <tr th:each="posizione : ${classifica}">
+					                    <td><a th:href="@{'/squadra/' + ${posizione.squadra.id}}" th:text="${posizione.squadra.nome}"></a></td>
+					                    <td th:text="${posizione.posizione}"></td>
+					                    <td th:text="${posizione.punti}"></td>
+					                    <td th:text="${posizione.vittorie}"></td>
+					                    <td th:text="${posizione.pareggi}"></td>
+					                    <td th:text="${posizione.sconfitte}"></td>
+					                    <td th:text="${posizione.golFatti}"></td>
+					                    <td th:text="${posizione.golSubiti}"></td>
+					                </tr>
+					            </tbody>
+					        </table>
 
-</body>
-</html>
+					        <ul class="mt-4">
+					            <li th:if="${campione.squadra == null}">
+					                Nessuna squadra campione per questa stagione.
+					            </li>
+					            <li th:unless="${campione.squadra == null}">
+					                Squadra campione: <span th:text="${campione.squadra.nome}"></span>
+					            </li>
+					            <li>
+					                Squadra con il miglior attacco: <span th:text="${piuGol.squadra.nome}"></span> con <span th:text="${piuGol.golFatti}"></span> gol
+					            </li>
+					            <li>
+					                Squadra con la miglior difesa: <span th:text="${menoGol.squadra.nome}"></span> con <span th:text="${menoGol.golSubiti}"></span> gol
+					            </li>
+					            <li>
+					                Squadre retrocesse:
+					                <ul>
+					                    <li th:each="pos : ${retrocesse}" th:text="${pos.squadra.nome}"></li>
+					                </ul>
+					            </li>
+					        </ul>
+					    </div>
+
+					    <a class="btn btn-outline-primary px-4 py-2 btn-no-hover" style="color: #001f3f; border-color: #001f3f;" th:href="@{/stagioniUtente}">Indietro</a>
+					</div>
+
+					</body>
+					</html>

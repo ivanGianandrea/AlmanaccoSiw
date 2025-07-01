@@ -22,12 +22,12 @@ public class Stagione {
     private Long id;
     @NotNull
     @Min(value = 1898)
-    private int annoInizio;
+    private Integer annoInizio;
     @NotNull
     @Min(value = 1899)
-    private int annoFine;
+    private Integer annoFine;
 
-    @OneToMany(mappedBy = "stagione")
+    @OneToMany(mappedBy = "stagione", cascade = CascadeType.REMOVE)
     private List<PosizioneClassifica> classifica;
 
     @ManyToMany
@@ -45,19 +45,19 @@ public class Stagione {
 		this.id = id;
 	}
 
-	public int getAnnoInizio() {
+	public Integer getAnnoInizio() {
 		return annoInizio;
 	}
 
-	public void setAnnoInizio(int annoInizio) {
+	public void setAnnoInizio(Integer annoInizio) {
 		this.annoInizio = annoInizio;
 	}
 
-	public int getAnnoFine() {
+	public Integer getAnnoFine() {
 		return annoFine;
 	}
 
-	public void setAnnoFine(int annoFine) {
+	public void setAnnoFine(Integer annoFine) {
 		this.annoFine = annoFine;
 	}
 
@@ -76,8 +76,11 @@ public class Stagione {
 	public void setSquadre(List<Squadra> squadre) {
 		this.squadre = squadre;
 	}
+
+	@Override
+	public String toString() {
+		return annoInizio+"/"+annoFine;
+	}
     
   
-
-    
 }

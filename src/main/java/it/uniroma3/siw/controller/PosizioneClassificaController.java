@@ -46,12 +46,13 @@ public class PosizioneClassificaController {
 
 	    // Salva la posizione in classifica
 	    @PostMapping("/admin/posizione/inserisci/salvata")
-	    public String creaNuovasPosizione(@Valid @ModelAttribute PosizioneClassifica posizione, BindingResult bindingResult, @RequestParam Long squadraId,@RequestParam Long stagioneId,Model model) {
+	    public String creaNuovasPosizione(@Valid @ModelAttribute("posizione") PosizioneClassifica posizione, BindingResult bindingResult, @RequestParam("squadraId") Long squadraId,@RequestParam("stagioneId") Long stagioneId,Model model) {
 	    	Squadra squadra = squadraService.findById(squadraId);
 	    	Stagione stagione = stagioneService.findById(stagioneId);
 	        posizione.setSquadra(squadra); 
 	        posizione.setStagione(stagione);
-	        
+	        squadra.getStagioni().add(stagione);
+	        stagione.getSquadre().add(squadra);
 	        posizioneClassificaValidator.validate(posizione, bindingResult);
 	        if(!bindingResult.hasErrors()) {
 	        posizioneClassificaService.save(posizione);
@@ -66,7 +67,7 @@ public class PosizioneClassificaController {
 
 	    //Visualizza tutte le posizioni in classifica per ciascuna squadra
 	    @GetMapping("/admin/posizioni/{idSquadra}")
-	    public String PosizioniPerSquadra(@PathVariable Long idSquadra,Model model) {
+	    public String PosizioniPerSquadra(@PathVariable("idSquadra") Long idSquadra,Model model) {
 	        Squadra squadra = squadraService.findById(idSquadra);
 	        List<PosizioneClassifica> posizionamenti = posizioneClassificaService.findBySquadra(squadra);
 	        model.addAttribute("squadra", squadra);
@@ -77,7 +78,7 @@ public class PosizioneClassificaController {
 	    
 	    //Visualizza la form per modificare il posizionamento di una squadra
 	    @GetMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/modifica")
-	    public String mostraModificaPosizionePerSquadra(@PathVariable Long idSquadra,@PathVariable Long idPosizioneClassifica,Model model) {
+	    public String mostraModificaPosizionePerSquadra(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica,Model model) {
 	    	 Squadra squadra = squadraService.findById(idSquadra);
 	    	 PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
 	    	 List<Stagione> stagioni = stagioneService.getStagioniRimanenti(posizioneClassifica.getStagione());
@@ -89,30 +90,30 @@ public class PosizioneClassificaController {
 	    
 	    //aggiornamento PosizioneClassifica
 	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/modifica/{campo}")
-	    public String aggiornaPosizionePerSquadra(@PathVariable Long idSquadra,@PathVariable Long idPosizioneClassifica, @PathVariable String campo, @RequestParam String valore, Model model) {
+	    public String aggiornaPosizionePerSquadra(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica, @PathVariable("campo") String campo, @RequestParam("valore") Integer valore, Model model) {
 	        PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
 	        Squadra squadra = squadraService.findById(idSquadra);
 	        switch (campo) {
 	            case "posizione":
-	                posizioneClassifica.setPosizione(Integer.parseInt(valore));
+	                posizioneClassifica.setPosizione(valore);
 	                break;
 	            case "punti":
-	                posizioneClassifica.setPunti(Integer.parseInt(valore));
+	                posizioneClassifica.setPunti(valore);
 	                break;
 	            case "vittorie":
-	                posizioneClassifica.setVittorie(Integer.parseInt(valore));
+	                posizioneClassifica.setVittorie(valore);
 	                break;
 	            case "pareggi":
-	                posizioneClassifica.setPareggi(Integer.parseInt(valore));
+	                posizioneClassifica.setPareggi(valore);
 	                break;
 	            case "sconfitte":
-	                posizioneClassifica.setSconfitte(Integer.parseInt(valore));
+	                posizioneClassifica.setSconfitte(valore);
 	                break;
 	            case "golFatti":
-	                posizioneClassifica.setGolFatti(Integer.parseInt(valore));
+	                posizioneClassifica.setGolFatti(valore);
 	                break;
 	            case "golSubiti":
-	                posizioneClassifica.setGolSubiti(Integer.parseInt(valore));
+	                posizioneClassifica.setGolSubiti(valore);
 	                break;
 	            default:
 	                return "error";  // Se il campo non è valido
@@ -127,7 +128,7 @@ public class PosizioneClassificaController {
 	    
 	    //aggiornamento della stagione della PosizioneClassifica
 	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/modifica/stagione")
-	    public String aggiornaPosizionePerSquadra(@PathVariable Long idSquadra,@PathVariable Long idPosizioneClassifica, @RequestParam Long stagioneId, Model model) {
+	    public String aggiornaPosizionePerSquadra(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica, @RequestParam Long stagioneId, Model model) {
 	        PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
 	        Squadra squadra = squadraService.findById(idSquadra);
 	            Stagione stagione = stagioneService.findById(stagioneId);
@@ -139,5 +140,11 @@ public class PosizioneClassificaController {
             model.addAttribute("stagioni", stagioneService.getStagioniRimanenti(posizioneClassifica.getStagione()) );
 	        return "formUpdatePosizioneClassifica"; 
 	}
+	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/elimina")
+	    public String eliminaPosizione(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica,Model model) {
+	    	PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
+	    	posizioneClassificaService.delete(posizioneClassifica);
+	    	return "redirect:/admin/posizioni/"+idSquadra;
+	    }
 }
 

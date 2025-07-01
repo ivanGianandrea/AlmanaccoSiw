@@ -20,11 +20,17 @@ public class PosizioneClassificaValidator implements Validator {
 	public void validate(Object o, Errors errors) {
 		PosizioneClassifica posizioneClassifica = (PosizioneClassifica)o;
 		if (posizioneClassificaService.posizioneEsistente(posizioneClassifica.getStagione(), posizioneClassifica.getSquadra())) {
-	errors.reject("posizioneClassifica.duplicata");
+			errors.reject("posizioneClassifica.duplicata");
 		 }
 		if(posizioneClassificaService.esistePosizioneNellaClassifica(posizioneClassifica.getStagione(), posizioneClassifica.getPosizione())){
-			errors.reject("posizioneClassifica.posizione.esistente");
+		    System.out.println("⚠️ esiste posizione nella classifica rilevato");
+			errors.reject("posizioneClassifica.esistente");
 		}
+		/*if(posizioneClassificaService.partiteGiocate(posizioneClassifica.getStagione()) != (posizioneClassifica.getVittorie()+posizioneClassifica.getPareggi()+posizioneClassifica.getSconfitte())){
+		    System.out.println("partite giocate rilevato");
+			errors.reject("posizioneClassifica.partite");
+		}
+		*/
 	}
 
 	@Override

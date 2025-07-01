@@ -70,10 +70,10 @@ public class StagioneController {
     
     //Visualizza la pagina della singola stagione
     @GetMapping("/stagioniUtente/{idStagione}")
-    public String mostraSingolaStagione(@PathVariable Long idStagione, Model model) {
+    public String mostraSingolaStagione(@PathVariable("idStagione") Long idStagione, Model model) {
     	Stagione stagione= stagioneService.findById(idStagione);
     	List<PosizioneClassifica> classifica = posizioneClassificaService.getClassificaPerStagione(idStagione);
-    	Squadra campione = posizioneClassificaService.getCampione(idStagione).getSquadra();
+    	PosizioneClassifica campione = posizioneClassificaService.getCampione(idStagione);
     	PosizioneClassifica piuGolFatti = posizioneClassificaService.getSquadraPiuGolFatti(idStagione);
     	PosizioneClassifica menoGolSubiti = posizioneClassificaService.getSquadraMenoGolSubiti(idStagione);
     	List<PosizioneClassifica> retrocesse = posizioneClassificaService.getSquadreRetrocesse(idStagione);
@@ -84,6 +84,16 @@ public class StagioneController {
     	model.addAttribute("menoGol", menoGolSubiti);
     	model.addAttribute("retrocesse", retrocesse);
     	return "stagione";
+    }
+    
+    @PostMapping("/admin/eliminaStagione/{idStagione}")
+    public String eliminaStagione(@PathVariable("idStagione") long idStagione) {
+    	 Stagione stagione = stagioneService.findById(idStagione);
+    	 for (Squadra squadra : stagione.getSquadre()) {
+             squadra.getStagioni().remove(stagione);
+         }
+    	stagioneService.elimina(idStagione);
+    	return "redirect:/admin/stagioni";
     }
 }
 

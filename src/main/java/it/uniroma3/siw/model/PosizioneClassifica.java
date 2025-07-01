@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -14,19 +15,24 @@ import jakarta.validation.constraints.NotNull;
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	    @NotNull
-	    private int posizione;
+	    private Integer  posizione;
 	    @NotNull
-	    private int punti;
+	    private Integer  punti;
 	    @NotNull
-	    private int vittorie;
+	    @Min(0)
+	    private Integer  vittorie;
 	    @NotNull
-	    private int pareggi;
+	    @Min(0)
+	    private Integer  pareggi;
 	    @NotNull
-	    private int sconfitte;
+	    @Min(0)
+	    private Integer  sconfitte;
 	    @NotNull
-	    private int golFatti;
+	    @Min(0)
+	    private Integer  golFatti;
 	    @NotNull
-	    private int golSubiti;
+	    @Min(0)
+	    private Integer  golSubiti;
 
 	    @ManyToOne
 	    @JoinColumn(name = "squadra_id")
@@ -44,59 +50,59 @@ import jakarta.validation.constraints.NotNull;
 			this.id = id;
 		}
 
-		public int getPosizione() {
+		public Integer getPosizione() {
 			return posizione;
 		}
 
-		public void setPosizione(int posizione) {
+		public void setPosizione(Integer  posizione) {
 			this.posizione = posizione;
 		}
 
-		public int getPunti() {
+		public Integer getPunti() {
 			return punti;
 		}
 
-		public void setPunti(int punti) {
+		public void setPunti(Integer  punti) {
 			this.punti = punti;
 		}
 
-		public int getVittorie() {
+		public Integer getVittorie() {
 			return vittorie;
 		}
 
-		public void setVittorie(int vittorie) {
+		public void setVittorie(Integer  vittorie) {
 			this.vittorie = vittorie;
 		}
 
-		public int getPareggi() {
+		public Integer getPareggi() {
 			return pareggi;
 		}
 
-		public void setPareggi(int pareggi) {
+		public void setPareggi(Integer pareggi) {
 			this.pareggi = pareggi;
 		}
 
-		public int getSconfitte() {
+		public Integer getSconfitte() {
 			return sconfitte;
 		}
 
-		public void setSconfitte(int sconfitte) {
+		public void setSconfitte(Integer sconfitte) {
 			this.sconfitte = sconfitte;
 		}
 
-		public int getGolFatti() {
+		public Integer getGolFatti() {
 			return golFatti;
 		}
 
-		public void setGolFatti(int golFatti) {
+		public void setGolFatti(Integer golFatti) {
 			this.golFatti = golFatti;
 		}
 
-		public int getGolSubiti() {
+		public Integer getGolSubiti() {
 			return golSubiti;
 		}
 
-		public void setGolSubiti(int golSubiti) {
+		public void setGolSubiti(Integer golSubiti) {
 			this.golSubiti = golSubiti;
 		}
 

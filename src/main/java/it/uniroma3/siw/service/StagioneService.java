@@ -14,7 +14,7 @@ public class StagioneService {
 	StagioneRepository stagioneRepository;
 
 	public Stagione salvaStagione(Stagione stagione) {
-return stagioneRepository.save(stagione);		
+		return stagioneRepository.save(stagione);
 	}
 
 	public List<Stagione> getStagioni() {
@@ -22,20 +22,23 @@ return stagioneRepository.save(stagione);
 	}
 
 	public Stagione findById(Long stagioneId) {
-		
+
 		return stagioneRepository.findById(stagioneId).get();
 	}
+
 	public boolean stagioneEsistente(Integer annoInizio, Integer annoFine) {
 		return stagioneRepository.existsByAnnoInizioAndAnnoFine(annoInizio, annoFine);
-		
+
 	}
-	
+
 	public List<Stagione> getStagioniRimanenti(Stagione stagione) {
 		List<Stagione> stagioni = this.getStagioni();
 		stagioni.remove(stagione);
 		return stagioni;
-		
-	}
-	
 
+	}
+
+	public void elimina(long id) {
+		stagioneRepository.deleteById(id);
+	}
 }

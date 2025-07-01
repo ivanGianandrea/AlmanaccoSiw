@@ -21,9 +21,13 @@ public class SquadraValidator implements Validator{
 	@Override
 	public void validate(Object o, Errors errors) {
 		Squadra squadra = (Squadra)o;
-		if (squadraService.esistenzaSquadra(squadra.getNome())) {
+		Squadra esistente = squadraService.getSquadraByNome(squadra.getNome());
+		if (esistente != null && esistente.getId()!=squadra.getId()) {
 	errors.reject("squadra.duplicata");
-		 }		
+		 }
+		if(!(squadra.getLogoUrl().endsWith(".jpg") || squadra.getLogoUrl().endsWith(".png"))) {
+			errors.rejectValue("logoUrl","logoUrl.formato");
+		}
 	}
 	
 

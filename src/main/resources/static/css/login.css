@@ -1,51 +1,116 @@
+.title-dark-blue {
+            color: #001f3f;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f6f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .login-container div {
+            margin-bottom: 15px;
+        }
+
+        .login-container span {
+            display: inline-block;
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #001f3f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .registrati, .indietro {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #001f3f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+		body {
+		          background-color: #f4f6f9;
+		          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		      }
+
+		      .navbar {
+		          background-color: #001f3f;
+		      }
+
+		      .navbar-brand, .nav-link {
+		          color: white !important;
+		      }
+
+		      .main-title {
+		          font-size: 3rem;
+		          color: #001f3f;
+		          font-weight: bold;
+		      }
+
+		      .logo-seriea {
+		          max-width: 120px;
+		      }
+
+		      .card img {
+		          max-height: 100px;
+		          object-fit: contain;
+		      }
+
+		      .list-group-item {
+		          background-color: #ffffff;
+		          border: none;
+		      }
 
 
-body{
-  background-color : white;
-  font-family : monospace;
-  
-}
 
-.titolo{
-  background-color: #f5f5f5;
-  color: #333;
-  padding: 10px;
-  border-radius: 5px;
-}
-h1.titolo{
-  font-family: Palatino Linotype;
-  font-size : 35px;
-}
-h2.titolo{
-  margin-top: 70px;
-  font-family: Palatino Linotype;
-  font-size : 20px;
-}
+			  .nav-item.dropdown-css {
+			      position: relative;
+			  }
 
-.registrati{
-   background-color: #f5f5f5;
-  color: #333;
-  padding: 10px;
-  border-radius: 5px;
- margin: 55px 400px;
-}
-.indietro{
-   background-color: #f5f5f5;
-  color: #333;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 50px; 
-   display: inline-block; 
-}
+			  .nav-item.dropdown-css .dropdown-menu-css {
+			      display: none;
+			      position: absolute;
+			      top: 100%;
+			      left: 0;
+			      background-color: white;
+			      list-style: none;
+			      padding: 0;
+			      margin: 0;
+			      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			      min-width: 180px;
+			      border-radius: 4px;
+			      z-index: 1000;
+			  }
 
-.login-container{
-	height: 120px;
-	font-size: 20px;
-	 width : 320px;
-	  margin: 65px 60px 40px 400px;
-	 background-color: #f5f5f5;
-	 color: #333;
-	 padding: 80px;
-	 border-radius: 5px;
-	 text-align: center;
-}
+			  .nav-item.dropdown-css:focus-within .dropdown-menu-css { /* Mostra il menu se il contenitore ha focus */
+			      display: block;
+			  }
+
+			  .dropdown-menu-css li a { /* Voci del menu */
+			      display: block;
+			      padding: 10px 15px;
+			      color: black;
+			      text-decoration: none;
+			  }
+
+			  .dropdown-menu-css li a:hover {
+			      background-color: #f0f0f0;
+			  }

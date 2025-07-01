@@ -25,3 +25,30 @@ li{
 table{
 	margin-bottom: 18px;
 }
+body {
+          background-color: #f8f9fa;
+      }
+
+      .card-logo {
+          width: 150px;
+          height: auto;
+      }
+
+      .scudetto-img {
+          height: 32px;
+          margin: 2px;
+      }
+
+      .stagione-link {
+          font-size: 1.1rem;
+          text-decoration: none;
+      }
+
+      .stagione-link:hover {
+          text-decoration: underline;
+      }
+
+      .indietro {
+          margin-top: 2rem;
+          display: inline-block;
+      }

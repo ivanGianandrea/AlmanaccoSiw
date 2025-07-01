@@ -14,6 +14,10 @@ import it.uniroma3.siw.repository.SquadraRepository;
 public class PosizioneClassificaService {
 @Autowired
 PosizioneClassificaRepository posizioneClassificaRepository;
+@Autowired
+SquadraService squadraService;
+@Autowired
+StagioneService stagioneService;
 
 	public PosizioneClassifica save(PosizioneClassifica posizione) {
 		return posizioneClassificaRepository.save(posizione);
@@ -39,23 +43,37 @@ PosizioneClassificaRepository posizioneClassificaRepository;
 	}
 	
 	public PosizioneClassifica getCampione(Long idStagione) {
-		return this.posizioneClassificaRepository.findCampioneByStagione(idStagione);
+		return this.posizioneClassificaRepository.findCampioneByStagione(idStagione).orElse(null);
 	}
     
     public PosizioneClassifica getSquadraMenoGolSubiti(Long idStagione) {
-		return this.posizioneClassificaRepository.findMenoGolSubitiByStagione(idStagione);
+		return this.posizioneClassificaRepository.findMenoGolSubitiByStagione(idStagione).orElse(null);
 	}
     
     public PosizioneClassifica getSquadraPiuGolFatti(Long idStagione) {
-		return this.posizioneClassificaRepository.findPiuGolFattiByStagione(idStagione);
+		return this.posizioneClassificaRepository.findPiuGolFattiByStagione(idStagione).orElse(null);
 	}
     
     public List<PosizioneClassifica> getSquadreRetrocesse(Long idStagione){
     	return this.posizioneClassificaRepository.findRetrocesseByStagione(idStagione);
     }
+    
     //se esiste già nella classifica quella posizione
-    public boolean esistePosizioneNellaClassifica(Stagione stagione,int posizione) {
+    public boolean esistePosizioneNellaClassifica(Stagione stagione,Integer posizione) {
     	return this.posizioneClassificaRepository.existsByStagioneAndPosizione(stagione, posizione);
     }
-	
+    
+	public void delete(PosizioneClassifica posizioneClassifica) {
+		Squadra squadra = posizioneClassifica.getSquadra();
+		squadra.getPosizioni().remove(posizioneClassifica);
+		Stagione stagione = posizioneClassifica.getStagione();
+    	stagione.getClassifica().remove(posizioneClassifica);
+    	stagioneService.salvaStagione(stagione);
+    	squadraService.salvaSquadra(squadra);
+		posizioneClassificaRepository.delete(posizioneClassifica);
+	}
+	public int partiteGiocate(Stagione stagione) {
+		int numeroSquadre = posizioneClassificaRepository.countByStagione(stagione);
+		return (numeroSquadre-1)*2;
+	}
 }

@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.SquadraService;
 import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.validation.CredentialsValidation;
 import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
+	@Autowired
+	SquadraService squadraService;
 	@Autowired
 	CredentialsService credentialsService;
 	@Autowired
@@ -81,6 +84,7 @@ private CredentialsValidation credentialValidator;
 	@GetMapping("/")
 		public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		model.addAttribute("squadre", squadraService.getSquadre());
 		if(authentication instanceof AnonymousAuthenticationToken) {
 			return "index" ;
 		}
