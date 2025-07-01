@@ -18,14 +18,20 @@ public class PosizioneClassificaValidator implements Validator {
 	
 	@Override
 	public void validate(Object o, Errors errors) {
-		PosizioneClassifica posizioneClassifica = (PosizioneClassifica)o;
-		if (posizioneClassificaService.posizioneEsistente(posizioneClassifica.getStagione(), posizioneClassifica.getSquadra())) {
-			errors.reject("posizioneClassifica.duplicata");
-		 }
-		if(posizioneClassificaService.esistePosizioneNellaClassifica(posizioneClassifica.getStagione(), posizioneClassifica.getPosizione())){
-		    System.out.println("⚠️ esiste posizione nella classifica rilevato");
-			errors.reject("posizioneClassifica.esistente");
-		}
+	    PosizioneClassifica posizioneClassifica = (PosizioneClassifica)o;
+	    PosizioneClassifica esistente = posizioneClassificaService.findByStagioneAndSquadra(
+	        posizioneClassifica.getStagione(), posizioneClassifica.getSquadra());
+	    
+	    if (esistente != null && !esistente.getId().equals(posizioneClassifica.getId())) {
+	        errors.rejectValue("stagione", "posizioneClassifica.duplicata");
+	    }
+
+	    PosizioneClassifica stessaPosizione = posizioneClassificaService.findByStagioneAndPosizione(
+	        posizioneClassifica.getStagione(), posizioneClassifica.getPosizione());
+
+	    if (stessaPosizione != null && !stessaPosizione.getId().equals(posizioneClassifica.getId())) {
+	        errors.rejectValue("posizione", "posizioneClassifica.esistente");
+	    }
 		/*if(posizioneClassificaService.partiteGiocate(posizioneClassifica.getStagione()) != (posizioneClassifica.getVittorie()+posizioneClassifica.getPareggi()+posizioneClassifica.getSconfitte())){
 		    System.out.println("partite giocate rilevato");
 			errors.reject("posizioneClassifica.partite");

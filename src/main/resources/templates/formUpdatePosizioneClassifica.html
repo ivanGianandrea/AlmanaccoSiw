@@ -1,118 +1,128 @@
 <!DOCTYPE html>
+
 <head>
-    <title>Modifica Posizionamento</title>
+	<title>Modifica Posizionamento</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-						<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/style.css">
 
-					<style>
-						.btn-no-hover {
-						    color: #001f3f !important;
-						    border-color: #001f3f !important;
-						    background-color: transparent !important;
-						}
+	<style>
+		.btn-no-hover {
+			color: #001f3f !important;
+			border-color: #001f3f !important;
+			background-color: transparent !important;
+		}
 
-						.btn-no-hover:hover {
-						    color: #001f3f !important;
-						    border-color: #001f3f !important;
-						    background-color: transparent !important;
-						}
-					    </style></head>
+		.btn-no-hover:hover {
+			color: #001f3f !important;
+			border-color: #001f3f !important;
+			background-color: transparent !important;
+		}
+	</style>
+</head>
+
 <body>
 	<nav class="navbar navbar-expand-lg fixed-top">
-						    <div class="container-fluid">
-						        <a class="navbar-brand" href="/">Almanacco Serie A</a>
-						        <div class="collapse navbar-collapse justify-content-end">
-						            <ul class="navbar-nav">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">Almanacco Serie A</a>
+			<div class="collapse navbar-collapse justify-content-end">
+				<ul class="navbar-nav">
 
-										
-										<li class="nav-item dropdown-css" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-										    <a class="nav-link" href="#" tabindex="0">Area Admin ▾</a>
-										    <ul class="dropdown-menu-css">
-										        <li><a href="/admin/gestioneSquadra">Gestione Squadre</a></li>
-										        <li><a href="/admin/gestioneStagioni">Gestione Stagioni</a></li>
-										    </ul>
-										</li>
-						                <li class="nav-item" th:if="${userDetails == null}">
-						                    <a class="nav-link" href="/login">Login</a>
-						                </li>
-						                <li class="nav-item" th:if="${userDetails != null}">
-											<div class="d-flex align-items-center">
-											        <span class="text-light me-2" th:text="${userDetails.username}">Utente</span>
-											        <a class="nav-link" href="/logout">Logout</a>
-											    </div>
-						                </li>
 
-						            </ul>
-						        </div>
-						    </div>
-						</nav>
-	
-						<div class="container mt-5 pt-5">
-						    <h1 class="text-center mb-4" style="color: #001f3f; font-weight: bold;">Modifica Posizionamento di <span th:text="${squadra.nome}"></span></h1>
-
-						    <div class="row justify-content-center">
-						        <div class="col-md-8 col-lg-6">
-
-						            <!-- Form 1 -->
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/posizione'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="posizione" class="form-label">Posizione:</label>
-						                <input type="number" id="posizione" name="valore" th:value="${posizioneClassifica.posizione}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100" style="color:#001f3f; border-color:#001f3f;">Aggiorna</button>
-						            </form>
-
-						            <!-- Form 2 -->
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/punti'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="punti" class="form-label">Punti:</label>
-						                <input type="number" id="punti" name="valore" th:value="${posizioneClassifica.punti}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <!-- Altri form (vittorie, pareggi, ecc...) -->
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/vittorie'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="vittorie" class="form-label">Vittorie:</label>
-						                <input type="number" id="vittorie" name="valore" th:value="${posizioneClassifica.vittorie}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/pareggi'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="pareggi" class="form-label">Pareggi:</label>
-						                <input type="number" id="pareggi" name="valore" th:value="${posizioneClassifica.pareggi}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/sconfitte'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="sconfitte" class="form-label">Sconfitte:</label>
-						                <input type="number" id="sconfitte" name="valore" th:value="${posizioneClassifica.sconfitte}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/golFatti'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="golFatti" class="form-label">Gol Fatti:</label>
-						                <input type="number" id="golFatti" name="valore" th:value="${posizioneClassifica.golFatti}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/golSubiti'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="golSubiti" class="form-label">Gol Subiti:</label>
-						                <input type="number" id="golSubiti" name="valore" th:value="${posizioneClassifica.golSubiti}" class="form-control mb-2" />
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-
-						            <!-- Form stagione -->
-						            <form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/modifica/stagione'}" method="post" class="mb-3 p-3 bg-white border rounded shadow-sm">
-						                <label for="stagioneId" class="form-label">Seleziona Stagione:</label>
-						                <select name="stagioneId" id="stagioneId" class="form-select mb-2">
-						                    <option th:each="stagione : ${stagioni}" th:value="${stagione.id}" th:text="${stagione.annoInizio} + '/' + ${stagione.annoFine}"></option>
-						                </select>
-						                <button type="submit" class="btn btn-outline-primary btn-no-hover w-100">Aggiorna</button>
-						            </form>
-						            <!-- Link indietro -->
-						            <div class="text-center mt-4">
-						                <a th:href="@{'/admin/posizioni/' + ${squadra.id}}" class="btn btn-outline-secondary btn-no-hover" style="color:#001f3f; border-color:#001f3f;">Indietro</a>
-						            </div>
-
-						        </div>
-						    </div>
+					<li class="nav-item dropdown-css" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+						<a class="nav-link" href="#" tabindex="0">Area Admin ▾</a>
+						<ul class="dropdown-menu-css">
+							<li><a href="/admin/gestioneSquadra">Gestione Squadre</a></li>
+							<li><a href="/admin/gestioneStagioni">Gestione Stagioni</a></li>
+						</ul>
+					</li>
+					<li class="nav-item" th:if="${userDetails == null}">
+						<a class="nav-link" href="/login">Login</a>
+					</li>
+					<li class="nav-item" th:if="${userDetails != null}">
+						<div class="d-flex align-items-center">
+							<span class="text-light me-2" th:text="${userDetails.username}">Utente</span>
+							<a class="nav-link" href="/logout">Logout</a>
 						</div>
-						</body>
-						</html>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container mt-5 pt-5">
+		<h1 class="text-center mb-4" style="color: #001f3f; font-weight: bold;">Modifica Posizionamento di <span
+				th:text="${squadra.nome}"></span></h1>
+
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6">
+
+				<form th:action="@{'/admin/posizioni/' + ${squadra.id} + '/' + ${posizioneClassifica.id} + '/update'}"
+					th:object="${posizioneClassifica}" method="post" class="p-4 bg-white border rounded shadow-sm">
+					<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+					    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+					</div>
+					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" name="stagioneId" th:value="${posizioneClassifica.stagione.id}" />
+					<div class="mb-3">
+						<label>Posizione</label>
+						<input type="number" th:field="*{posizione}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Punti</label>
+						<input type="number" th:field="*{punti}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('punti')}" th:errors="*{punti}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Vittorie</label>
+						<input type="number" th:field="*{vittorie}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('vittorie')}" th:errors="*{vittorie}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Pareggi</label>
+						<input type="number" th:field="*{pareggi}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('pareggi')}" th:errors="*{pareggi}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Sconfitte</label>
+						<input type="number" th:field="*{sconfitte}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('sconfitte')}" th:errors="*{sconfitte}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Gol Fatti</label>
+						<input type="number" th:field="*{golFatti}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('golFatti')}" th:errors="*{golFatti}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label>Gol Subiti</label>
+						<input type="number" th:field="*{golSubiti}" class="form-control" />
+						<div class="text-danger" th:if="${#fields.hasErrors('golSubiti')}" th:errors="*{golSubiti}">
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-outline-primary btn-no-hover">Salva</button>
+				</form>
+				<div class="text-center mt-4">
+					<a th:href="@{'/admin/posizioni/' + ${squadra.id}}" class="btn btn-outline-secondary btn-no-hover"
+						style="color:#001f3f; border-color:#001f3f;">Indietro</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

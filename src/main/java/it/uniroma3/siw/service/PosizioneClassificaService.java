@@ -68,12 +68,24 @@ StagioneService stagioneService;
 		squadra.getPosizioni().remove(posizioneClassifica);
 		Stagione stagione = posizioneClassifica.getStagione();
     	stagione.getClassifica().remove(posizioneClassifica);
+		posizioneClassificaRepository.delete(posizioneClassifica);
+
+    	squadra.getStagioni().remove(stagione);
+        stagione.getSquadre().remove(squadra);
     	stagioneService.salvaStagione(stagione);
     	squadraService.salvaSquadra(squadra);
-		posizioneClassificaRepository.delete(posizioneClassifica);
 	}
+	
 	public int partiteGiocate(Stagione stagione) {
 		int numeroSquadre = posizioneClassificaRepository.countByStagione(stagione);
 		return (numeroSquadre-1)*2;
 	}
+	public PosizioneClassifica findByStagioneAndSquadra(Stagione stagione, Squadra squadra) {
+		return posizioneClassificaRepository.findByStagioneAndSquadra(stagione, squadra);
+	}
+	public PosizioneClassifica findByStagioneAndPosizione(Stagione stagione, Integer posizione) {
+		return posizioneClassificaRepository.findByStagioneAndPosizione(stagione, posizione);
+	}
+	
+	
 }

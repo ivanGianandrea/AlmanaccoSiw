@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,10 +52,16 @@ public class PosizioneClassificaController {
 	    	Stagione stagione = stagioneService.findById(stagioneId);
 	        posizione.setSquadra(squadra); 
 	        posizione.setStagione(stagione);
-	        squadra.getStagioni().add(stagione);
-	        stagione.getSquadre().add(squadra);
+	        if (!squadra.getStagioni().contains(stagione)) {
+	            squadra.getStagioni().add(stagione);
+	        }
+	        if (!stagione.getSquadre().contains(squadra)) {
+	            stagione.getSquadre().add(squadra);
+	        }
 	        posizioneClassificaValidator.validate(posizione, bindingResult);
 	        if(!bindingResult.hasErrors()) {
+	        squadraService.salvaSquadra(squadra);  
+	        stagioneService.salvaStagione(stagione);
 	        posizioneClassificaService.save(posizione);
 	        return "gestioneSquadra";
 	        }
@@ -89,62 +96,38 @@ public class PosizioneClassificaController {
 	    }
 	    
 	    //aggiornamento PosizioneClassifica
-	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/modifica/{campo}")
-	    public String aggiornaPosizionePerSquadra(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica, @PathVariable("campo") String campo, @RequestParam("valore") Integer valore, Model model) {
-	        PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
-	        Squadra squadra = squadraService.findById(idSquadra);
-	        switch (campo) {
-	            case "posizione":
-	                posizioneClassifica.setPosizione(valore);
-	                break;
-	            case "punti":
-	                posizioneClassifica.setPunti(valore);
-	                break;
-	            case "vittorie":
-	                posizioneClassifica.setVittorie(valore);
-	                break;
-	            case "pareggi":
-	                posizioneClassifica.setPareggi(valore);
-	                break;
-	            case "sconfitte":
-	                posizioneClassifica.setSconfitte(valore);
-	                break;
-	            case "golFatti":
-	                posizioneClassifica.setGolFatti(valore);
-	                break;
-	            case "golSubiti":
-	                posizioneClassifica.setGolSubiti(valore);
-	                break;
-	            default:
-	                return "error";  // Se il campo non è valido
-	        }
+	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/update")
+	    public String aggiornaPosizionePerSquadra(@Valid @ModelAttribute("posizioneClassifica") PosizioneClassifica posizioneClassifica,BindingResult bindingResult,
+	    		@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica, 
+                @RequestParam("stagioneId") Long stagioneId,
+                Model model) {
+	    	    Squadra squadra = squadraService.findById(idSquadra);
+                Stagione nuovaStagione = stagioneService.findById(stagioneId);
+                posizioneClassifica.setStagione(nuovaStagione);
+                posizioneClassifica.setSquadra(squadra);
+   	    	 posizioneClassificaValidator.validate(posizioneClassifica, bindingResult);
 
-	        posizioneClassificaService.save(posizioneClassifica);
-	        model.addAttribute("squadra", squadra);
-	    	 model.addAttribute("posizioneClassifica", posizioneClassifica);
-            model.addAttribute("stagioni", stagioneService.getStagioniRimanenti(posizioneClassifica.getStagione()) );
-	        return "formUpdatePosizioneClassifica"; 
+                if (bindingResult.hasErrors()) {
+                    model.addAttribute("squadra", squadra);
+                    model.addAttribute("stagioni", stagioneService.getStagioniRimanenti(nuovaStagione));
+                    return "formUpdatePosizioneClassifica";
+                }
+
+                posizioneClassificaService.save(posizioneClassifica);
+
+                return "redirect:/admin/posizioni/" + idSquadra;
+         
 	    }
 	    
-	    //aggiornamento della stagione della PosizioneClassifica
-	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/modifica/stagione")
-	    public String aggiornaPosizionePerSquadra(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica, @RequestParam Long stagioneId, Model model) {
-	        PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
-	        Squadra squadra = squadraService.findById(idSquadra);
-	            Stagione stagione = stagioneService.findById(stagioneId);
-	                posizioneClassifica.setStagione(stagione);
-
-	        posizioneClassificaService.save(posizioneClassifica);
-	        model.addAttribute("squadra", squadra);
-	    	 model.addAttribute("posizioneClassifica", posizioneClassifica);
-            model.addAttribute("stagioni", stagioneService.getStagioniRimanenti(posizioneClassifica.getStagione()) );
-	        return "formUpdatePosizioneClassifica"; 
-	}
+	   
+	    
 	    @PostMapping("/admin/posizioni/{idSquadra}/{idPosizioneClassifica}/elimina")
 	    public String eliminaPosizione(@PathVariable("idSquadra") Long idSquadra,@PathVariable("idPosizioneClassifica") Long idPosizioneClassifica,Model model) {
 	    	PosizioneClassifica posizioneClassifica = posizioneClassificaService.findById(idPosizioneClassifica);
 	    	posizioneClassificaService.delete(posizioneClassifica);
 	    	return "redirect:/admin/posizioni/"+idSquadra;
 	    }
+	    
+	    
 }
 

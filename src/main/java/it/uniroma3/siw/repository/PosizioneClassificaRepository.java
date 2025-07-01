@@ -33,4 +33,7 @@ public interface PosizioneClassificaRepository extends CrudRepository<PosizioneC
 	
 	public boolean existsByStagioneAndPosizione(Stagione stagione,Integer posizione);
 	public int countByStagione(Stagione stagione);
+public PosizioneClassifica findByStagioneAndSquadra(Stagione stagione, Squadra squadra);
+public PosizioneClassifica findByStagioneAndPosizione(Stagione stagione,Integer posizione);
+
 }
