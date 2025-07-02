@@ -70,7 +70,7 @@ public class StagioneController {
     
     //Visualizza la pagina della singola stagione
     @GetMapping("/stagioniUtente/{idStagione}")
-    public String mostraSingolaStagione(@PathVariable("idStagione") Long idStagione, Model model) {
+    public String mostraSingolaStagione(@PathVariable Long idStagione, Model model) {
     	Stagione stagione= stagioneService.findById(idStagione);
     	List<PosizioneClassifica> classifica = posizioneClassificaService.getClassificaPerStagione(idStagione);
     	PosizioneClassifica campione = posizioneClassificaService.getCampione(idStagione);

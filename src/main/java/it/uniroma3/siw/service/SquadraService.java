@@ -34,4 +34,5 @@ SquadraRepository squadraRepository;
 	public void eliminaSquadra(long idSquadra) {
 		squadraRepository.deleteById(idSquadra);
 	}
+	
 }

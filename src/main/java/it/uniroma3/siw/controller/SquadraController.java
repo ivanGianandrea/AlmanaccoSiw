@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import it.uniroma3.siw.model.Squadra;
 import it.uniroma3.siw.repository.SquadraRepository;
 import it.uniroma3.siw.service.SquadraService;
+import it.uniroma3.siw.service.StagioneService;
 import it.uniroma3.siw.validation.SquadraValidator;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,4 +95,5 @@ public class SquadraController {
 		squadraService.eliminaSquadra(idSquadra);
 		return "redirect:/admin/squadre";
 	}
+
 }

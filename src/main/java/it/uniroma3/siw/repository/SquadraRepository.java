@@ -1,5 +1,7 @@
 package it.uniroma3.siw.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,8 @@ public boolean existsByNome(String nome);
 public int findCampionatiVinti(@Param("idSquadra") long idSquadra);
 
 public Squadra findSquadraByNome(String nome);
+/*
+@Query("select s from Squadra s join s.posizioni p  group by s order by sum(CASE WHEN p.posizione = 1 then 1 else 0 end)")
+public List<Squadra> findAllOrderByPosizioni_Posizione();
+*/
 }
